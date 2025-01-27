@@ -54,9 +54,12 @@ exclude = '''
 line_length = 119
 
 [tool.mypy]
-disallow_untyped_defs=true
-warn_return_any=true
-check_untyped_defs=true
-strict=true
-warn_unreachable=true
-exclude =['.venv', 'tests']
+disallow_untyped_defs = true
+warn_return_any = true
+check_untyped_defs = true
+strict = true
+warn_unreachable = true
+exclude = ['.venv', 'tests']
+
+[tool.coverage.report]
+exclude_also = ['if __name__ == .__main__.:', ]
