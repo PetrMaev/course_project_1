@@ -45,20 +45,57 @@ def top_transactions(df_transactions: pd.DataFrame, pay_amount: int | float) -> 
     return json.dumps(top_5_dict, ensure_ascii=False, indent=4)
 
 
-def get_exchange_rate():
-    """ Получение данных актуальных данных курса валют """
-    payload = {}
-    get_api = os.getenv("API_KEY")
+def get_exchange_rate() -> str:
+    """ Получение актуальных данных курса валют """
+    # Получение курса доллара
+    payload = {"to": "RUB", "from": "USD"}
+    get_api = os.getenv("API_KEY_CURRENCIES")
     headers = {"apikey": f"{get_api}"}
-    amount_usd = transaction["operationAmount"]["amount"]
-    url = f"https://api.apilayer.com/exchangerates_data/convert?to=RUB&from=USD&amount={amount_usd}" # уточнить документацию и ссылку на ресурс
-    response = requests.get(url, headers=headers, data=payload)
+    url = f"https://api.apilayer.com/exchangerates_data/convert?&amount=1"
+    response = requests.get(url, headers=headers, params=payload)
     response.raise_for_status()
+    currency_usd = response.json()['query']['from']
+    rate_usd = response.json()['info']['rate']
+    # Получение курса евро
+    payload = {"to": "RUB", "from": "EUR"}
+    get_api = os.getenv("API_KEY_CURRENCIES")
+    headers = {"apikey": f"{get_api}"}
+    url = f"https://api.apilayer.com/exchangerates_data/convert?&amount=1"
+    response = requests.get(url, headers=headers, params=payload)
+    response.raise_for_status()
+    currency_eur = response.json()['query']['from']
+    rate_eur = response.json()['info']['rate']
+    # Вывод результата
+    result = dict()
+    result["currency_rates"] = {"currency": currency_usd, "rate": rate_usd}, {"currency": currency_eur,
+                                                                              "rate": rate_eur},
+    return json.dumps(result, ensure_ascii=False, indent=4)
+
+
+def get_stock_price() -> str:
+    """ Получение актуальных данных стоимости акций """
+    stock = "AAPL"
+    get_api = os.getenv("API_KEY_STOCKS")
+    url = f"https://financialmodelingprep.com/api/v3/quote-short/{stock}?apikey={get_api}"
+    response = requests.get(url)
+    response.raise_for_status()
+    stock_name = response.json()[0]['symbol']
+    stock_price = round(response.json()[0]['price'], 2)
+    result = dict()
+    result["stock_prices"] = {"stock": stock_name, "price": stock_price}
+    return json.dumps(result, ensure_ascii=False, indent=4)
+
+
+def views():
+    """ Собирает все данные и возвращает JSON-объект """
     pass
+
 
 
 if __name__ == '__main__':
     print(greeting())
     df_operations = pd.read_excel(PATH_TO_OPERATIONS)
     # print(top_transactions(df_operations, 800))
-    print(cards_info(df_operations))
+    # print(cards_info(df_operations))
+    # print(get_exchange_rate())
+    # print(get_stock_price())
