@@ -15,7 +15,9 @@ load_dotenv()
 def greeting() -> str:
     """ Возвращает приветствие, в зависимости от текущего времени """
     time_now = datetime.now().time()
-    if time(hour=23) < time_now <= time(hour=23, minute=59, second=59) or time(hour=0) < time_now <= time(hour=6):
+    if time(hour=23) < time_now <= time(hour=23, minute=59, second=59) or time(hour=0) <= time_now <= time(hour=3,
+                                                                                                           minute=59,
+                                                                                                           second=59):
         return 'Доброй ночи'
     elif time(hour=18) < time_now <= time(hour=23):
         return 'Добрый вечер'
@@ -30,7 +32,7 @@ def cards_info(set_time: str) -> Any:
     df_transactions = pd.read_excel(PATH_TO_OPERATIONS)
     df_transactions_sort = df_transactions.loc[
         (df_transactions['Сумма платежа'] < 0) & (df_transactions['Дата платежа'] == set_time)]
-    cashback = df_transactions_sort['Сумма операции с округлением'] / 100
+    cashback = round(df_transactions['Сумма операции с округлением'] / 100, 2)
     df_transactions['Кешбэк'] = cashback
     grouped_df = df_transactions.groupby('Номер карты').agg(
         {'Сумма операции с округлением': 'sum', 'Кешбэк': 'sum'}).reset_index()
@@ -97,6 +99,8 @@ def views(set_time: str) -> str:
 
 if __name__ == '__main__':
     print(greeting())
-    print(views('25.12.2021'))
-    # print(cards_info('25.12.2021'))
+    # print(views('25.12.2021'))
+    print(cards_info('25.12.2021'))
     # print(top_transactions('25.12.2021'))
+    # print(get_exchange_rate(PATH_TO_USER_SETTINGS))
+    # print(get_stock_price(PATH_TO_USER_SETTINGS))
