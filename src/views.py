@@ -1,7 +1,7 @@
 import json
 
 from config import PATH_TO_USER_SETTINGS
-from src.utils import greeting, cards_info, top_transactions, get_exchange_rate, get_stock_price
+from src.utils import cards_info, get_exchange_rate, get_stock_price, greeting, top_transactions
 
 
 def views(set_time: str) -> str:
