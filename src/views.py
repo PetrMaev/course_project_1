@@ -30,11 +30,11 @@ def greeting() -> str:
 def cards_info(set_time: str) -> Any:
     """ Возвращает информацию по каждой карте """
     df_transactions = pd.read_excel(PATH_TO_OPERATIONS)
-    df_transactions_sort = df_transactions.loc[
-        (df_transactions['Сумма платежа'] < 0) & (df_transactions['Дата платежа'] == set_time)]
     cashback = round(df_transactions['Сумма операции с округлением'] / 100, 2)
     df_transactions['Кешбэк'] = cashback
-    grouped_df = df_transactions.groupby('Номер карты').agg(
+    df_transactions_sort = df_transactions.loc[
+        (df_transactions['Сумма платежа'] < 0) & (df_transactions['Дата платежа'] == set_time)]
+    grouped_df = df_transactions_sort.groupby('Номер карты').agg(
         {'Сумма операции с округлением': 'sum', 'Кешбэк': 'sum'}).reset_index()
     result = grouped_df.loc[:, ['Номер карты', 'Сумма операции с округлением', 'Кешбэк']]
     result_dict = result.to_dict(orient='records')
