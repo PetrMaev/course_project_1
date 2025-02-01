@@ -71,7 +71,7 @@ def top_transactions(set_time: str) -> Any:
     return top_5_dict
 
 
-def get_exchange_rate(path_to_user_file: str) -> str | list:
+def get_exchange_rate(path_to_user_file: str | Any) -> str | list[dict[str, Any]]:
     """ Получение актуальных данных курса валют """
     currency_list = []
     logger.info(f'Открытие json-файла по пути: {PATH_TO_USER_SETTINGS} для получения данных курса валют')
@@ -96,7 +96,7 @@ def get_exchange_rate(path_to_user_file: str) -> str | list:
         return currency_list
 
 
-def get_stock_price(path_to_user_file: str) -> str | list:
+def get_stock_price(path_to_user_file: str | Any) -> str | list[dict[str, Any]]:
     """ Получение актуальных данных стоимости акций """
     stocks_list = []
     logger.info(f'Открытие json-файла по пути: {PATH_TO_USER_SETTINGS} для получения данных стоимости акций')
