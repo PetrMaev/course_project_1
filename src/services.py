@@ -24,12 +24,10 @@ def simple_searching(transactions_list: list[dict[str, Any]], search_str: str) -
     for transaction in transactions_list:
         if re.search(f'.*{search_str}.*', str(transaction['Категория']), flags=re.IGNORECASE):
             result.append(transaction)
-        elif re.search(f'.*{search_str}.*', transaction['Описание'], flags=re.IGNORECASE):
+        elif re.search(f'.*{search_str}.*', str(transaction['Описание']), flags=re.IGNORECASE):
             result.append(transaction)
-        else:
-            return 'Транзакции по заданным критериям отсутствуют'
-    logger.info(f'Успешно. Вывод транзакций по критерию {search_str}')
-    return json.dumps(result, ensure_ascii=False, indent=4)
+    logger.info(f'Успешно. Вывод транзакций по критерию "{search_str}"')
+    return json.dumps(result, ensure_ascii=False)
 
 
 def get_transactions_with_phone_numbers(transactions_list: list[dict[str, Any]]) -> str:
@@ -40,11 +38,11 @@ def get_transactions_with_phone_numbers(transactions_list: list[dict[str, Any]])
         if re.search(r'.*\W\d\s\d{3}.', transaction['Описание'], flags=re.IGNORECASE):
             result.append(transaction)
     logger.info('Успешно. Вывод транзакций, содержащие в описании мобильные номера')
-    return json.dumps(result, ensure_ascii=False, indent=4)
+    return json.dumps(result, ensure_ascii=False)
 
 
 if __name__ == '__main__':
     df_transactions = pd.read_excel(PATH_TO_OPERATIONS)
     transactions = df_transactions.to_dict(orient='records')
-    # print(get_transactions_with_phone_numbers(transactions))
-    print(simple_searching(transactions, "Супер"))
+    print(get_transactions_with_phone_numbers(transactions))
+    # print(simple_searching(transactions, "Магнит"))
