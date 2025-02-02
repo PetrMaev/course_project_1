@@ -29,7 +29,10 @@ def main_services_2() -> str:
 
 
 def main_reports() -> str:
-    """ Вызов функции из модуля "Отчеты", которая возвращает траты по заданной категории за последние три месяца от переданной даты """
+    """
+    Вызов функции из модуля "Отчеты", которая возвращает траты по заданной категории
+    за последние три месяца от переданной даты
+    """
     df_transactions = pd.read_excel(PATH_TO_OPERATIONS)
     result = spending_by_category(df_transactions, 'Аптеки', '08.2018')
     return result
