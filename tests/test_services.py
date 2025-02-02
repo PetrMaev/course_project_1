@@ -1,7 +1,5 @@
 from src.services import simple_searching, get_transactions_with_phone_numbers
 
-from numpy import nan
-
 
 def test_simple_searching(transactions_for_test):
     assert simple_searching(transactions_for_test,
@@ -10,9 +8,4 @@ def test_simple_searching(transactions_for_test):
 
 def test_get_transactions_with_phone_numbers(transactions_with_phone_numbers):
     assert get_transactions_with_phone_numbers(
-        transactions_with_phone_numbers) == [
-               {"Дата операции": "18.11.2021 21:15:27", "Дата платежа": "19.11.2021", "Номер карты": "NaN",
-                "Статус": "OK", "Сумма операции": -200.0, "Валюта операции": "RUB", "Сумма платежа": -200.0,
-                "Валюта платежа": "RUB", "Кэшбэк": "NaN", "Категория": "Мобильная связь", "MCC": "NaN",
-                "Описание": "Тинькофф Мобайл +7 995 555-55-55", "Бонусы (включая кэшбэк)": 2,
-                "Округление на инвесткопилку": 0, "Сумма операции с округлением": 200.0}]
+        transactions_with_phone_numbers) == '[{"Дата операции": "18.11.2021 21:15:27", "Дата платежа": "19.11.2021", "Номер карты": "NaN", "Статус": "OK", "Сумма операции": -200.0, "Валюта операции": "RUB", "Сумма платежа": -200.0, "Валюта платежа": "RUB", "Кэшбэк": "NaN", "Категория": "Мобильная связь", "MCC": "NaN", "Описание": "Тинькофф Мобайл +7 995 555-55-55", "Бонусы (включая кэшбэк)": 2, "Округление на инвесткопилку": 0, "Сумма операции с округлением": 200.0}]'
