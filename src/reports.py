@@ -1,9 +1,7 @@
 import json
 import logging
-import os
 from datetime import datetime, timedelta
-from functools import wraps
-from typing import Optional, Callable, Any
+from typing import Optional
 
 import pandas as pd
 
@@ -44,9 +42,9 @@ def spending_by_category(transactions: pd.DataFrame, category: str,
             if date_start <= transaction_date <= date_end:
                 transaction_date_sorted.append(transaction)
     logger.info(f'Успешно. Вывод транзакций по категории: "{category}" за период: "{date_start} - {date_end}"')
-    return json.dumps(transaction_date_sorted, ensure_ascii=False, indent=4)
+    return json.dumps(transaction_date_sorted, ensure_ascii=False)
 
 
 if __name__ == '__main__':
     df_transactions = pd.read_excel(PATH_TO_OPERATIONS)
-    print(spending_by_category(df_transactions, 'Каршеринг', '12.2021'))
+    print(spending_by_category(df_transactions, 'Аптеки', '08.2018'))
